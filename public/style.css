@@ -1,0 +1,492 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #0F0920;
+    font-family: Arial, sans-serif;
+}
+
+#lottieGif {
+    min-width: 500px;
+    min-height: 500px;
+    background-color: white;
+}
+
+/* Начальная страница */
+.container-welcome {
+    background-color: #221C3E;
+    border-radius: 15px;
+    padding: 36px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 2px solid white;
+}
+
+.container-welcome h1 {
+    margin-bottom: 60px;
+    color: #F2F0FF;
+    margin-top: 0;
+}
+
+.container-welcome .connect-button {
+    display: block;
+    margin: 18px 0px;
+}
+
+.container-welcome .or-text {
+
+    color: #B5B3BC;
+}
+
+/* Начальная страница */
+
+
+
+/* Connect-to-Space */
+
+.joinRoomContainer,
+.enterCodeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#joinRoomDialog,
+#enterCodeDialog {
+    background-color: #221C3E;
+    padding: 48px;
+    border-radius: 10px;
+    border: 2px solid #F2F0FF;
+    text-align: center;
+}
+
+#joinRoomDialog h2,
+#enterCodeDialog h2 {
+    color: #F2F0FF;
+    font-size: 36px;
+    margin-top: 0px;
+    margin-bottom: 36px
+}
+
+#codeInputs {
+    display: flex;
+    justify-content: center;
+    margin: 0px 0;
+}
+
+.connect-space-input {
+    width: 60px;
+    height: 72px;
+    margin: 0 5px;
+    text-align: center;
+    font-size: 20px;
+    border: 2px solid #F2F0FF;
+    border-radius: 10px;
+    background-color: #221C3E;
+    color: white;
+    outline: none;
+}
+
+.connect-space-button {
+    display: block;
+    margin: 0px auto;
+    margin-top: 24px;
+    cursor: pointer;
+}
+
+/* Connect-to-Space */
+
+
+/* choose a character */
+#avatarDialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 344px;
+    margin: 0 auto;
+    padding: 36px;
+    background-color: #221C3E;
+    border: 2px solid #B5B3BC;
+    border-radius: 24px;
+}
+
+#avatarDialogGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 344px;
+    margin: 0 auto;
+    padding: 12px 36px 36px 36px;
+    background-color: #221C3E;
+    border: 2px solid #B5B3BC;
+    border-radius: 24px;
+}
+
+#avatarDialog h2 {
+    margin-bottom: 24px;
+    margin-top: 0px;
+    color: #F2F0FF;
+    font-size: 36px;
+}
+
+#avatarDialogGame h2 {
+    margin-bottom: 24px;
+    margin-top: 0px;
+    color: #F2F0FF;
+    font-size: 36px;
+}
+
+#avatarContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+
+
+#avatarContainer img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 18px;
+    transition: transform 0.3s;
+}
+
+
+
+#avatarContainer img:hover {
+    transform: scale(1.1);
+}
+
+#usernameContainer {
+    width: 100%;
+    margin-bottom: 0px;
+    border: 1px solid #B5B3BC;
+    border-radius: 18px;
+}
+
+#usernameMobileContainer {
+    width: 100%;
+    height: 23%;
+    margin-bottom: 60px;
+    border: 3px solid #B5B3BC;
+    border-radius: 34px;
+}
+
+#usernameContainer label {
+    display: block;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 14px;
+    color: #B5B3BC;
+}
+
+#inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 5px;
+}
+
+#usernameInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+    color: black;
+    background-color: #221C3E;
+    /* Цвет фона */
+    margin-left: 10px;
+    color: white;
+}
+
+
+#usernameInput::placeholder {
+    color: #B5B3BC;
+}
+
+#penIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+#joinBtn,
+#backBtn {
+    margin: 0px 0px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#joinBtn {
+    margin-bottom: 20px;
+}
+
+.selected {
+    border: 2px solid #007BFF;
+    /* Синий цвет рамки для выделенного аватара */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    /* Тень для выделенного аватара */
+}
+
+#incorrectName {
+    color: red;
+    margin: 20px 0 20px 0;
+    visibility: hidden;
+}
+
+
+#roomId {
+    align-self: flex-end;
+    margin: 0 -20px 6px 0;
+    color: #B5B3BC;
+}
+
+/* choose a character */
+
+/* choose a character mobile */
+
+#avatarMobileContainer img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 48px;
+    transition: transform 0.3s;
+}
+
+#avatarMobileContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 0;
+    width: fit-content;
+}
+
+#avatarDialogGameMobile {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 12px 36px 36px 36px;
+    background-color: #221C3E;
+    border: 2px solid #B5B3BC;
+    border-radius: 24px;
+}
+
+#avatarDialogLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 400px;
+}
+
+#avatarDialogRight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+#avatarDialogGameMobile h2 {
+    margin-bottom: 10px;
+    margin-top: 0px;
+    color: #F2F0FF;
+    font-size: 40px;
+}
+
+#usernameMobileContainer label {
+    display: block;
+    margin-bottom: 0px;
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 30px;
+    color: #B5B3BC;
+}
+
+#usernameInputMobile {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+    color: black;
+    background-color: #221C3E;
+    /* Цвет фона */
+    margin-left: 10px;
+    color: white;
+    font-size: 48px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#usernameInputMobile::placeholder {
+    color: #B5B3BC;
+}
+
+#penIconMobile {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+#roomIdMobile {
+    align-self: flex-start;
+    margin: 0 0 6px 0;
+    color: #B5B3BC;
+    font-size: 16px;
+}
+
+#incorrectNameMobile {
+    color: red;
+    margin-bottom: 40px;
+    font-size: 26px;
+    visibility: hidden;
+}
+
+#avatarMobileContainer img:hover {
+    transform: scale(1.1);
+}
+
+#avatarMobileContainer .selected {
+    border: 4px solid #007BFF;
+    /* Синий цвет рамки для выделенного аватара */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    /* Тень для выделенного аватара */
+}
+
+
+
+/* choose a character mobile */
+
+
+/* createNewSpaceContainer */
+#createRoomDialogContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Высота контейнера равна высоте окна просмотра */
+}
+
+#createRoomDialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    border: 2px solid #F2F0FF;
+    border-radius: 24px;
+    background-color: #221C3E;
+}
+
+.code-display-container {
+    width: 400px;
+    margin: 48px 0;
+    padding: 10px;
+    text-align: left;
+    border: 2px solid #B2A8EE;
+    border-radius: 18px;
+    background-color: #221C3E;
+    position: relative;
+}
+
+.space-number-label {
+    font-size: 14px;
+    color: #B5B3BC;
+    position: absolute;
+    top: 5px;
+    left: 15px;
+}
+
+.code-display {
+    margin-top: 14px;
+    font-size: 20px;
+    margin-left: 5px;
+    color: #F2F0FF;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.centered-btn {
+    display: block;
+    margin: 0px 0px;
+    cursor: pointer;
+}
+
+#createRoomDialog h2 {
+    text-align: center;
+    margin: 0 0 0 0;
+    color: #F2F0FF;
+    font-size: 40px;
+}
+
+#connectBtn {
+    margin-bottom: 24px;
+}
+
+/* createNewSpaceContainer */
+
+#gameContainer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: #0F0920;
+    height: 720px;
+    width: 100px;
+    text-align: center;
+}
+
+.game-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.game-logo {
+    margin-top: 20px;
+}
+
+.gamebutton {
+    padding: 10px 20px;
+}
+
+.exit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #221C3E;
+    border-radius: 24px;
+    padding: 48px;
+    border: 2px solid white;
+}
+
+
+#leave-space {
+    margin-bottom: 24px;
+}

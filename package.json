@@ -1,0 +1,20 @@
+{
+  "name": "onlineguitarherowft",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.0",
+    "phaser": "^3.85.2",
+    "redis": "^4.7.0",
+    "socket.io": "^4.7.5",
+    "uuid": "^10.0.0"
+  }
+}

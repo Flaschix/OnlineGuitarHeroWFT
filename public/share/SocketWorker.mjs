@@ -49,6 +49,12 @@ export class SocketWorker {
         });
     }
 
+    subscribeGameOver(context, event) {
+        this.socket.on('gameOver', (data) => {
+            event.call(context);
+        });
+    }
+
     emitNoteHit(noteId) {
         this.socket.emit('noteHit', noteId);
     }

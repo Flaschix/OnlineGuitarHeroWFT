@@ -15,6 +15,10 @@ const config = {
         height: 720,
         parent: 'gameContainer'
     },
+    render: {
+        pixelArt: true, // Включаем режим "пиксельной графики" для устранения размытия
+        antialias: false, // Отключаем сглаживание
+    },
     physics: {
         default: 'arcade',
         arcade: {

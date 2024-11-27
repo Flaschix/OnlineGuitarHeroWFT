@@ -31,50 +31,29 @@ export class LobbyScene extends Phaser.Scene {
 
         this.load.image('backgroundMenu', './assets/background/background-menu.jpg');
 
-        this.load.image('pressX', 'assets/icon/pressX.png');
-        this.load.image('closeIcon', 'assets/icon/closeIcon.png');
-
-        this.load.image('overlayBackground', 'assets/overlay/overlayBackground.png');
-
-        this.load.image('joystickBase', 'assets/joystick/joystick-back.png');
-        this.load.image('joystickThumb', 'assets/joystick/thrumb-btn.png');
-        this.load.image('touchButton', 'assets/joystick/touch-button.png');
         this.load.image('exitMobile', 'assets/button/exitMobile.png');
         this.load.image('settingsMobile', 'assets/button/settingsMobile.png');
 
         //characters
-        this.load.spritesheet('character1', './assets/characterMap/character1.png', { frameWidth: 32, frameHeight: 64 });
-        this.load.spritesheet('character2', './assets/characterMap/character2.png', { frameWidth: 32, frameHeight: 64 });
-        this.load.spritesheet('character3', './assets/characterMap/character3.png', { frameWidth: 29, frameHeight: 45 });
-        this.load.spritesheet('character4', './assets/characterMap/character4.png', { frameWidth: 48, frameHeight: 64 });
-        this.load.spritesheet('character5', './assets/characterMap/character5.png', { frameWidth: 48, frameHeight: 64 });
-        this.load.spritesheet('character6', './assets/characterMap/character6.png', { frameWidth: 48, frameHeight: 64 });
+        this.load.image('character1', './assets/characterMap/character1.png');
+        this.load.image('character2', './assets/characterMap/character2.png');
+        this.load.image('character3', './assets/characterMap/character3.png');
+        this.load.image('character4', './assets/characterMap/character4.png');
+        this.load.image('character5', './assets/characterMap/character5.png');
+        this.load.image('character6', './assets/characterMap/character6.png');
 
+        this.load.spritesheet('zombie1', './assets/zombie/zombie1.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('zombie2', './assets/zombie/zombie2.png', { frameWidth: 16, frameHeight: 16 });
+        this.load.spritesheet('zombie3', './assets/zombie/zombie3.png', { frameWidth: 16, frameHeight: 16 });
 
-        this.load.image('newyorkKey1', 'assets/keyFrame/newyorkKey1.png');
-        this.load.image('newyorkKey2', 'assets/keyFrame/newyorkKey2.png');
-        this.load.image('parisKey1', 'assets/keyFrame/parisKey1.png');
-        this.load.image('parisKey2', 'assets/keyFrame/parisKey2.png');
-        this.load.image('pekinKey1', 'assets/keyFrame/pekinKey1.png');
-        this.load.image('pekinKey2', 'assets/keyFrame/pekinKey2.png');
-        this.load.image('rioKey1', 'assets/keyFrame/rioKey1.png');
-        this.load.image('rioKey2', 'assets/keyFrame/rioKey2.png');
-        this.load.image('sidneyKey1', 'assets/keyFrame/sidneyKey1.png');
-        this.load.image('sidneyKey2', 'assets/keyFrame/sidneyKey2.png');
-        this.load.image('tokioKey1', 'assets/keyFrame/tokioKey1.png');
-        this.load.image('tokioKey2', 'assets/keyFrame/tokioKey2.png');
+        this.load.image('overlay', './assets/overlay/overlay.png')
+        this.load.image('textOverlay', './assets/overlay/textOverlay.png')
+        this.load.image('restart', './assets/button/restart.png')
+        this.load.image('start', './assets/button/start.png')
 
-        this.load.image('elf1', 'assets/elf/elf1.png');
-        this.load.image('elf2', 'assets/elf/elf2.png');
-        this.load.image('elf3', 'assets/elf/elf3.png');
-        this.load.image('elf4', 'assets/elf/elf4.png');
-        this.load.image('elf5', 'assets/elf/elf5.png');
-
-        this.load.image('rightArrow', 'assets/button/rightArrow.png');
-        this.load.image('leftArrow', 'assets/button/leftArrow.png');
-
-        this.load.image('fold', 'assets/icon/foldMobile.png')
-
+        this.load.image('greenBtn', './assets/gameBtn/green.png')
+        this.load.image('brownBtn', './assets/gameBtn/brown.png')
+        this.load.image('orangeBtn', './assets/gameBtn/orange.png')
     }
 
     createWelcomeContainer() {
@@ -90,7 +69,6 @@ export class LobbyScene extends Phaser.Scene {
 
         const connectToSpaceBtn = document.getElementById('connect-to-space');
         connectToSpaceBtn.addEventListener('click', () => {
-            console.log("connect");
             this.joinRoomContainer.setVisible(true);
             this.welcomeContainer.setVisible(false);
             this.captain = false;
@@ -99,7 +77,6 @@ export class LobbyScene extends Phaser.Scene {
         const createSpace = document.getElementById('create-space');
         createSpace.addEventListener('click', () => {
             socket.emit('createRoom');
-            console.log("create");
         });
     }
 
@@ -166,7 +143,6 @@ export class LobbyScene extends Phaser.Scene {
                 inputs.forEach(input => {
                     code += input.value;
                 });
-                console.log(code);
                 socket.emit('checkRoom', code);
             } else {
                 inputsContainer.style.display = 'flex';
@@ -206,7 +182,6 @@ export class LobbyScene extends Phaser.Scene {
             nameError.style.visibility = "visible";
         }
         else {
-            console.log(username);
 
             let roomCode = self.code;
             socket.emit('joinRoom', { roomCode, avatar: imgCount + 1, username });
@@ -279,6 +254,8 @@ export class LobbyScene extends Phaser.Scene {
 
         this.createNewSpaceContainer();
 
+        this.createAnimations();
+
         socket.on('roomExists', (roomCode) => {
             this.code = roomCode;
             this.joinRoomContainer.setVisible(false);
@@ -307,8 +284,6 @@ export class LobbyScene extends Phaser.Scene {
             this.creatCodeText.textContent = roomCode;
         });
 
-        this.createAnimations();
-
         socket.on('connect', () => {
             console.log('Connected to server');
         });
@@ -316,31 +291,28 @@ export class LobbyScene extends Phaser.Scene {
     }
 
     createAnimations() {
-        for (let i = 1; i <= 6; i++) {
-            this.anims.create({
-                key: `walk_down${i}`,
-                frames: this.anims.generateFrameNumbers(`character${i}`, { start: 0, end: 2 }),
-                frameRate: 10,
-                repeat: -1
-            });
-            this.anims.create({
-                key: `walk_left${i}`,
-                frames: this.anims.generateFrameNumbers(`character${i}`, { start: 3, end: 5 }),
-                frameRate: 10,
-                repeat: -1
-            });
-            this.anims.create({
-                key: `walk_right${i}`,
-                frames: this.anims.generateFrameNumbers(`character${i}`, { start: 9, end: 11 }),
-                frameRate: 10,
-                repeat: -1
-            });
-            this.anims.create({
-                key: `walk_up${i}`,
-                frames: this.anims.generateFrameNumbers(`character${i}`, { start: 6, end: 8 }),
-                frameRate: 10,
-                repeat: -1
-            });
-        }
+
+        this.textures.get('zombie1').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('zombie2').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('zombie3').setFilter(Phaser.Textures.FilterMode.NEAREST);
+
+        this.anims.create({
+            key: 'zombie_run1',
+            frames: this.anims.generateFrameNumbers('zombie1', { start: 0, end: 7 }), // Первая строка, 8 кадров
+            frameRate: 10, // Скорость анимации (кадров в секунду)
+            repeat: -1 // Бесконечное повторение
+        });
+        this.anims.create({
+            key: 'zombie_run2',
+            frames: this.anims.generateFrameNumbers('zombie2', { start: 0, end: 7 }), // Первая строка, 8 кадров
+            frameRate: 10, // Скорость анимации (кадров в секунду)
+            repeat: -1 // Бесконечное повторение
+        });
+        this.anims.create({
+            key: 'zombie_run3',
+            frames: this.anims.generateFrameNumbers('zombie3', { start: 0, end: 7 }), // Первая строка, 8 кадров
+            frameRate: 10, // Скорость анимации (кадров в секунду)
+            repeat: -1 // Бесконечное повторение
+        });
     }
 }

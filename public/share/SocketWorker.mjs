@@ -49,9 +49,27 @@ export class SocketWorker {
         });
     }
 
+    subscribeTimeUpdate(context, event) {
+        this.socket.on('timerUpdate', (timeLeft) => {
+            event.call(context, timeLeft);
+        });
+    }
+
     subscribeGameOver(context, event) {
         this.socket.on('gameOver', (data) => {
             event.call(context);
+        });
+    }
+
+    subscribeGameWon(context, event) {
+        this.socket.on('gameWon', (data) => {
+            event.call(context);
+        });
+    }
+
+    subscribePlayerRecconected(context, event) {
+        this.socket.on(`playerReconected`, (playerInfo) => {
+            event.call(context, playerInfo);
         });
     }
 
@@ -73,6 +91,10 @@ export class SocketWorker {
 
     emitStartGame() {
         this.socket.emit('startGame');
+    }
+
+    emitPlayerReconnect(newPlayerSettings) {
+        this.socket.emit('playerReconnect', newPlayerSettings);
     }
 
     unSubscribeAllListeners() {

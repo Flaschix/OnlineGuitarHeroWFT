@@ -40,11 +40,9 @@ app.get('/', (req, res) => {
 
 
 io.on('connection', (socket) => {
-    console.log('New client connected');
 
     //При нажатии на кнопку "создать комнату" на сервере создаётся новая комната и пользователю отправляеться код этой комнаты.
     socket.on('createRoom', async () => {
-        console.log('createRoom');
         let preCode;
         let check
 
@@ -59,6 +57,9 @@ io.on('connection', (socket) => {
         try {
             await redisClient.set(roomCode, roomId, { EX: 400 }); // Устанавливаем срок действия 24 часа 86400
             rooms[roomId] = {};
+            rooms[roomId].gameIntervals;
+            rooms[roomId].gameTimer;
+            rooms[roomId].players = {}
 
             socket.emit('roomCreated', roomCode);
             console.log(`Room created with code: ${roomCode}`);
@@ -97,57 +98,124 @@ io.on('connection', (socket) => {
 
             if (!rooms[roomId]) {
                 rooms[roomId] = {};
+                rooms[roomId].gameIntervals;
+                rooms[roomId].gameTimer;
+                rooms[roomId].players = {}
             }
 
             socket.join(roomId);
             socket.roomId = roomId;
 
-            rooms[roomId][socket.id] = { id: socket.id, character: avatar, name: username, room: roomCode };
+            rooms[roomId].players[socket.id] = { id: socket.id, character: avatar, name: username, room: roomCode };
 
             // Уведомляем других игроков о новом игроке
-            socket.to(`${roomId}`).emit('newPlayer', rooms[roomId][socket.id]);
+            socket.to(`${roomId}`).emit('newPlayer', rooms[roomId].players[socket.id]);
 
             socket.on('disconnect', () => {
-                console.log('Client disconnected');
                 if (rooms[roomId]) {
-                    delete rooms[roomId][socket.id];
+                    if (rooms[roomId].gameTimer) {
+                        io.to(roomId).emit('gameOver');
+                        clearInterval(rooms[roomId].gameIntervals);
+                        clearInterval(rooms[roomId].gameTimer);
+                    }
+
+                    delete rooms[roomId].players[socket.id];
                     io.to(`${roomId}`).emit('playerDisconnected', socket.id);
                 }
             });
 
             //Отправляем информацию о текущих игроках новому игроку
             socket.on('getPlayers', () => {
-                socket.emit('exitstedPlayers', rooms[roomId]);
-                console.log(Object.keys(rooms[roomId]).length);
+                socket.emit('exitstedPlayers', rooms[roomId].players);
             });
-
-            let gameIntervals = {};
 
             socket.on('startGame', () => {
                 if (rooms[roomId]) {
-                    io.to(roomId).emit('gameStarted');
-                    rooms[roomId].health = 3;  // Общее количество жизней команды
-                    console.log(`Game started in room: ${roomId}`);
-                    let noteId = 0;
+                    if (rooms[roomId].gameIntervals) {
+                        clearInterval(rooms[roomId].gameIntervals);
+                    }
 
-                    // Начинаем генерацию нот
-                    gameIntervals[roomId] = setInterval(() => {
-                        const randomLine = Math.floor(Math.random() * (Object.keys(rooms[roomId]).length - 1));
+                    io.to(roomId).emit('gameStarted');
+                    rooms[roomId].health = 3;
+                    let noteId = 0;
+                    let gameTime = 120; // Устанавливаем таймер на 120 секунд
+                    let spawnInterval = 2000; // Интервал между спавнами зомби
+                    let zombieSpeed = 3000;  // Скорость зомби
+
+                    rooms[roomId].gameIntervals = setInterval(() => {
+                        const randomLine = Math.floor(Math.random() * (Object.keys(rooms[roomId].players).length));
+                        const randomZom = Math.floor(Math.random() * 3) + 1;
                         noteId += 1;
-                        io.to(roomId).emit('noteGenerated', { line: randomLine, id: noteId });
-                    }, 2000);  // Генерация ноты каждые 2 секунды
+                        io.to(roomId).emit('noteGenerated', { line: randomLine, id: noteId, speed: zombieSpeed, zombie: randomZom });
+                    }, spawnInterval);
+
+                    // Запуск таймера
+                    rooms[roomId].gameTimer = setInterval(() => {
+                        gameTime--;
+
+                        // Увеличение сложности: каждые 30 секунд зомби становятся быстрее, а спавны — чаще
+                        if (gameTime % 30 === 0) {
+                            zombieSpeed = Math.max(1000, zombieSpeed - 500);
+                        }
+
+                        io.to(roomId).emit('timerUpdate', gameTime);
+
+                        if (gameTime <= 0) {
+                            clearInterval(rooms[roomId].gameTimer);
+                            clearInterval(rooms[roomId].gameIntervals);
+                            io.to(roomId).emit('gameWon'); // Отправка события победы
+                        }
+
+                        if (gameTime == 100) {
+                            clearInterval(rooms[roomId].gameIntervals);
+
+                            rooms[roomId].gameIntervals = setInterval(() => {
+                                const randomLine = Math.floor(Math.random() * (Object.keys(rooms[roomId].players).length));
+                                const randomZom = Math.floor(Math.random() * 3) + 1;
+                                noteId += 1;
+                                io.to(roomId).emit('noteGenerated', { line: randomLine, id: noteId, speed: zombieSpeed, zombie: randomZom });
+                            }, 1500);
+                        } else if (gameTime == 80) {
+                            clearInterval(rooms[roomId].gameIntervals);
+
+                            rooms[roomId].gameIntervals = setInterval(() => {
+                                const randomLine = Math.floor(Math.random() * (Object.keys(rooms[roomId].players).length));
+                                const randomZom = Math.floor(Math.random() * 3) + 1;
+                                noteId += 1;
+                                io.to(roomId).emit('noteGenerated', { line: randomLine, id: noteId, speed: zombieSpeed, zombie: randomZom });
+                            }, 1000);
+                        } else if (gameTime == 60) {
+                            clearInterval(rooms[roomId].gameIntervals);
+
+                            rooms[roomId].gameIntervals = setInterval(() => {
+                                const randomLine = Math.floor(Math.random() * (Object.keys(rooms[roomId].players).length));
+                                const randomZom = Math.floor(Math.random() * 3) + 1;
+                                noteId += 1;
+                                io.to(roomId).emit('noteGenerated', { line: randomLine, id: noteId, speed: zombieSpeed, zombie: randomZom });
+                            }, 500);
+                        } else if (gameTime == 30) {
+                            clearInterval(rooms[roomId].gameIntervals);
+
+                            rooms[roomId].gameIntervals = setInterval(() => {
+                                const randomLine = Math.floor(Math.random() * (Object.keys(rooms[roomId].players).length));
+                                const randomZom = Math.floor(Math.random() * 3) + 1;
+                                noteId += 1;
+                                io.to(roomId).emit('noteGenerated', { line: randomLine, id: noteId, speed: zombieSpeed, zombie: randomZom });
+                            }, 250);
+                        }
+                    }, 1000); // Таймер уменьшается каждую секунду
                 }
             });
+
 
             socket.on('noteMiss', () => {
                 if (rooms[roomId]) {
                     rooms[roomId].health--;
 
                     if (rooms[roomId].health <= 0) {
+                        clearInterval(rooms[roomId].gameTimer);
+                        clearInterval(rooms[roomId].gameIntervals);
                         io.to(roomId).emit('gameOver');
-                        clearInterval(gameIntervals[roomId]);
-                        delete gameIntervals[roomId];
-                        // Останавливаем генерацию нот
                     } else {
                         io.to(roomId).emit('noteMissed', { health: rooms[roomId].health });
                     }
@@ -160,6 +228,15 @@ io.on('connection', (socket) => {
                     io.to(roomId).emit('noteRemoved', noteId);
                 }
             });
+
+            socket.on('playerReconnect', (newSettings) => {
+                if (rooms[roomId].players[socket.id]) {
+                    // io.to(`${roomId}`).emit('playerDisconnected', socket.id);
+
+                    rooms[roomId].players[socket.id] = { id: socket.id, character: newSettings.avatar, name: newSettings.name, room: roomCode };
+                    io.to(`${roomId}`).emit('playerReconected', rooms[roomId].players[socket.id]);
+                }
+            })
         } catch (err) {
             console.error('Error joining room:', err);
             socket.emit('error', 'An error occurred');

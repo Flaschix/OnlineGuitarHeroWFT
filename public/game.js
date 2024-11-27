@@ -16,14 +16,14 @@ const config = {
         parent: 'gameContainer'
     },
     render: {
-        pixelArt: true, // Включаем режим "пиксельной графики" для устранения размытия
-        antialias: false, // Отключаем сглаживание
+        // pixelArt: true, // Включаем режим "пиксельной графики" для устранения размытия
+        // antialias: false, // Отключаем сглаживание
     },
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            // debug: true
         }
     },
     scene: [LoadingScene, LobbyScene, GameScene],

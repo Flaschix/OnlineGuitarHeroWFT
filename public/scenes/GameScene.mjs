@@ -2,7 +2,7 @@ import { CST } from "../CST.mjs";
 import { socket } from "../CST.mjs";
 import { SocketWorker } from "../share/SocketWorker.mjs";
 
-import { createUIBottom, createUIRight, createUITop, createUI, createUILeftMobile, createExitMenu, createAvatarDialog } from "../share/UICreator.mjs";
+import { createUIBottom, createUIRight, createUITop, createUI, createUILeftMobile, createExitMenu, createAvatarDialog, decrypt, cd } from "../share/UICreator.mjs";
 import { isMobile } from "../share/UICreator.mjs";
 
 export class GameScene extends Phaser.Scene {
@@ -34,6 +34,7 @@ export class GameScene extends Phaser.Scene {
         this.load.image('explosion', './assets/characterMap/explosion.png');
         this.load.image('heart', './assets/characterMap/heart.png');
         this.load.image('clock', './assets/characterMap/clock.png')
+        this.load.image('win', './assets/overlay/win.png')
     }
 
     create(data) {
@@ -488,8 +489,11 @@ export class GameScene extends Phaser.Scene {
         this.clearAllTweens();
 
 
-        this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Вы победили!', { fontSize: '64px', fill: '#00ff00' }).setOrigin(0.5);
+        // this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Вы победили!', { fontSize: '64px', fill: '#00ff00' }).setOrigin(0.5);
         this.isGameStarted = false;
+        this.add.sprite(650, 340, 'win').setDepth(3);
+
+        this.imgTitle = this.add.text(440, 240, decrypt(cd), { font: "bold 36px MyCustomFont", fill: '#ffffff', align: 'center' }).setDepth(3);
     }
 
     onReconnect(playerInfo) {

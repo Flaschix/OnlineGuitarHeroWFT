@@ -55,6 +55,8 @@ export function createUILeftMobile(context, settingsImg, exitImg, settingX, sett
     });
 }
 
+export const cd = 'Тскзугеовип!\n\nЕю тусыол стгфрцб ксрц л\nзсфхлжол пифхг ргкргъирлв\n\nНсзсеси фосес:\nDOLYH';
+
 export function createUI(self, eventSettingsBtn, eventExitBtn) {
 
     const uiContainer = self.add.dom(50, self.cameras.main.height / 2).createFromHTML(`
@@ -116,6 +118,24 @@ export function createExitMenu(self, eventLeaveBtn, eventCloseBtn, isMobile) {
 
 
     self.exitContainer.setVisible(false);
+}
+
+export function decrypt(text) {
+    return text.split('').map(char => {
+        const code = char.charCodeAt(0);
+        if (code >= 65 && code <= 90) {
+            return String.fromCharCode(((code - 65 - 3 + 26) % 26) + 65);
+        } else if (code >= 97 && code <= 122) {
+            return String.fromCharCode(((code - 97 - 3 + 26) % 26) + 97);
+        } else if (code >= 1040 && code <= 1071) {
+            return String.fromCharCode(((code - 1040 - 3 + 32) % 32) + 1040);
+        } else if (code >= 1072 && code <= 1103) {
+            return String.fromCharCode(((code - 1072 - 3 + 32) % 32) + 1072);
+        } else if (code >= 48 && code <= 57) {
+            return String.fromCharCode(((code - 43 + 10) % 10) + 48);
+        }
+        return char;
+    }).join('');
 }
 
 export function createAvatarDialog(self, eventConfirmBtn, eventCloseBtn, room, isMobile, nameButton) {

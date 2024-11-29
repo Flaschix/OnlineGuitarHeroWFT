@@ -142,7 +142,7 @@ io.on('connection', (socket) => {
                     io.to(roomId).emit('gameStarted');
                     rooms[roomId].health = 3;
                     let noteId = 0;
-                    let gameTime = 4; // Устанавливаем таймер на 120 секунд
+                    let gameTime = 120; // Устанавливаем таймер на 120 секунд
                     let spawnInterval = 2000; // Интервал между спавнами зомби
                     let zombieSpeed = 3000;  // Скорость зомби
 

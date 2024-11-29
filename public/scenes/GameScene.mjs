@@ -493,7 +493,7 @@ export class GameScene extends Phaser.Scene {
         this.isGameStarted = false;
         this.add.sprite(650, 340, 'win').setDepth(3);
 
-        this.imgTitle = this.add.text(440, 240, decrypt(cd), { font: "bold 36px MyCustomFont", fill: '#ffffff', align: 'center' }).setDepth(3);
+        this.imgTitle = this.add.text(420, 210, decrypt(cd), { font: "bold 36px MyCustomFont", fill: '#ffffff', align: 'center' }).setDepth(3);
     }
 
     onReconnect(playerInfo) {

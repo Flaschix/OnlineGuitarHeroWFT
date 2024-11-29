@@ -8,7 +8,7 @@ body {
 
 @font-face {
     font-family: 'MyCustomFont';
-    src: url('assets/font/inter.ttf') format(' truetype');
+    src: url('assets/font/inter.ttf') format('truetype');
 
 }
 
@@ -475,6 +475,7 @@ body {
 }
 
 .game-logo {
+    width: 52px;
     margin-top: 20px;
 }
 

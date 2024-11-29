@@ -55,7 +55,7 @@ export function createUILeftMobile(context, settingsImg, exitImg, settingX, sett
     });
 }
 
-export const cd = 'Тскзугеовип!\n\nЕю тусыол стгфрцб ксрц л\nзсфхлжол пифхг ргкргъирлв\n\nНсзсеси фосес:\nDOLYH';
+export const cd = 'Frqjudwxodwlrqv!\n\nBrx\'yh pdgh lw wkurxjk wkh\ngdqjhurxv crqh dqg uhdfkhg\nbrxu ghvwlqdwlrq.\n\nSdvvzrug: DOLYH';
 
 export function createUI(self, eventSettingsBtn, eventExitBtn) {
 

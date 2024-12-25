@@ -161,6 +161,8 @@ export class GameScene extends Phaser.Scene {
                 this.player = players[playerId];
 
                 newPlayer.isActive = true; // Зона игрока активна по умолчанию
+            } else {
+                newPlayer.targetCircle = this.add.image(lineX + 5, this.cameras.main.height / 2 + 100, `target`).setOrigin(0.5).setScale(0.075).setAlpha(0.3);
             }
 
             // Инициализируем пустой массив нот для каждой линии
@@ -196,6 +198,8 @@ export class GameScene extends Phaser.Scene {
                 this.otherPlayers[playerId].targetCircle.setX(lineX + 5);
                 // else this.otherPlayers[playerId].targetCircle = this.add.image(lineX + 5, this.cameras.main.height / 2 + 100, `target`).setOrigin(0.5).setScale(0.1);
 
+            } else {
+                this.otherPlayers[playerId].targetCircle.setX(lineX + 5);
             }
 
             index++;
@@ -218,6 +222,8 @@ export class GameScene extends Phaser.Scene {
             this.player = newPlayer;
 
             newPlayer.isActive = true;
+        } else {
+            newPlayer.targetCircle = this.add.image(newLineX + 5, this.cameras.main.height / 2 + 100, `target`).setOrigin(0.5).setScale(0.075).setAlpha(0.3);
         }
 
         // Инициализируем пустой массив нот для новой линии
@@ -237,7 +243,8 @@ export class GameScene extends Phaser.Scene {
             this.otherPlayers[playerId].lineX = null; // Удаляем линию игрока
             this.otherPlayers[playerId].hero.destroy();
             this.otherPlayers[playerId].nameText.destroy();
-            if (playerId == this.mySocket.socket.id) this.otherPlayers[playerId].targetCircle.destroy();;
+            if (playerId == this.mySocket.socket.id) this.otherPlayers[playerId].targetCircle.destroy();
+            else this.otherPlayers[playerId].targetCircle.destroy();
 
             delete this.otherPlayers[playerId]; // Удаляем игрока из списка
 
@@ -265,6 +272,7 @@ export class GameScene extends Phaser.Scene {
             this.otherPlayers[id].hero.setX(lineX);
             this.otherPlayers[id].nameText.setX(lineX);
             if (id === this.mySocket.socket.id) this.otherPlayers[id].targetCircle.setX(lineX + 5);
+            else this.otherPlayers[id].targetCircle.setX(lineX + 5);
 
             index++;
         }
